@@ -1,0 +1,50 @@
+plugins {
+    id 'application'
+}
+
+apply  plugin : 'scala'
+apply  plugin : 'idea'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    scalaMainClass = 'com.airline.challenge.Main'
+}
+
+application {
+    mainClass.set scalaMainClass
+}
+
+jar {
+    archivesBaseName = project.name
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Main-Class': scalaMainClass
+    }
+
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.5'
+    implementation group: 'com.github.scopt', name: 'scopt_2.13', version: '4.0.1'
+}
+
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
