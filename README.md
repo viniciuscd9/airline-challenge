@@ -21,7 +21,7 @@ LHR -- BKK (9)
 BKK -- SYD (11)
 time: 21
 ```
-It is also possible to run executing the gradle command without build a .jar file:
+It is also possible to run the project without build a .jar file:
 ```
 ./gradlew run --args "AIRPORT_ORIGIN AIRPORT_DESTINY"
 ```
