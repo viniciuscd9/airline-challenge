@@ -16,21 +16,21 @@ class Solution {
     var flights = Flights()
     implicit val ordering: Ordering[FlightNode] = (node1, node2) => node2.totalDuration.compareTo(node1.totalDuration)
     val queue = mutable.PriorityQueue(FlightNode(from = from, to = from, 0, totalDuration = 0))(ordering)
-    val visited = mutable.Set.empty[(String, String)]
+    val visited = mutable.Set.empty[String]
 
     while (queue.nonEmpty) {
       val currentNode = queue.dequeue()
       val flightNodes = flights.getFlightNodes(currentNode.to)
 
       for (flightNode <- flightNodes) {
-        if (!visited.contains((flightNode.from, flightNode.to))) {
+        if (!visited.contains(flightNode.to)) {
           val evaluatedNode: FlightNode = evaluate(currentNode, nextNode = flightNode)
           flights = flights.add(evaluatedNode)
           queue.enqueue(evaluatedNode)
         }
       }
 
-      visited += ((currentNode.from, currentNode.to))
+      visited += currentNode.to
 
       if (to.equals(currentNode.to)) {
         return currentNode.path :+ currentNode
